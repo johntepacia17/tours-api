@@ -1,3 +1,4 @@
+const path = require('path');
 // nodejs web application framework
 const express = require('express');
 // for http logger
@@ -18,7 +19,16 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
 
+// set pug as view engine
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+
+
 //Global MIDDLEWARES
+// serving static files
+// app.use(express.static(`${__dirname}/public`));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // set security http headers
 app.use(helmet());
@@ -60,9 +70,6 @@ app.use(hpp({
     ]
 }));
 
-// serving static files
-app.use(express.static(`${__dirname}/public`));
-
 // testing middlewares
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
@@ -77,6 +84,13 @@ app.use((req, res, next) => {
 // app.delete('/api/v1/tours/:id', deleteTour);
 
 // ROUTES
+app.get('/', (req, res) => {
+    res.status(200).render('base', {
+        tour: 'The Forest Hiker',
+        user: 'Jon Snow'
+    });
+});
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
