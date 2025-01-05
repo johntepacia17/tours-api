@@ -1,4 +1,5 @@
 const Tour = require('./../models/tourModel');
+const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 
 exports.getOverview = catchAsync(async (req, res, next) => {
@@ -27,3 +28,13 @@ exports.getTour = catchAsync( async (req, res, next) => {
             tour
         });
 });
+
+exports.getLoginForm =  (req, res) => {
+
+    res.status(200)
+        .set('Content-Security-Policy',"default-src 'self'; base-uri 'self'; block-all-mixed-content; font-src 'self' https: data:; frame-ancestors 'self'; img-src 'self' data:; object-src 'none'; script-src 'self' https://cdn.jsdelivr.net; script-src-attr 'none'; style-src 'self' https: 'unsafe-inline'; upgrade-insecure-requests;")
+        .render('login', {
+        title: 'Log into your account'
+    });
+
+};
