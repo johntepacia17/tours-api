@@ -1,3 +1,4 @@
+const AppError = require('../utils/appError');
 const Tour = require('./../models/tourModel');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
@@ -20,6 +21,10 @@ exports.getTour = catchAsync( async (req, res, next) => {
         // select field to display on output
         fields: 'review rating user'
     });
+
+    if(!tour) {
+        return next( new AppError('Tour cant be found.', 404) );
+    }
 
     res.status(200)
         .set('Content-Security-Policy',"default-src 'self' https://*.mapbox.com ;base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src https://cdnjs.cloudflare.com https://api.mapbox.com 'self' blob: ;script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests;")

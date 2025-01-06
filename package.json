@@ -2,15 +2,22 @@
   "name": "natours",
   "version": "1.0.0",
   "main": "app.js",
+  "targets": {
+    "main": false
+  },
   "scripts": {
     "start:dev": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
-    "debug": "ndb server.js"
+    "debug": "ndb server.js",
+    "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/js/bundled",
+    "build:js": "parcel watch ./public/js/index.js --dist-dir ./public/js/bundled"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
@@ -29,6 +36,7 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
+    "buffer": "^6.0.3",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
@@ -39,6 +47,8 @@
     "eslint-plugin-react": "^7.37.2",
     "ndb": "^1.1.5",
     "node": "^23.4.0",
-    "prettier": "^3.4.2"
+    "parcel": "^2.13.3",
+    "prettier": "^3.4.2",
+    "process": "^0.11.10"
   }
 }
