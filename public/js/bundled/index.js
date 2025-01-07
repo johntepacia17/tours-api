@@ -601,7 +601,7 @@ var _login = require("./login");
 var _mapbox = require("./mapbox");
 // DOM elements
 const mapBox = JSON.parse(document.getElementById('map'));
-const loginForm = document.querySelector('.form');
+const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 // delegations
 if (mapBox) {
