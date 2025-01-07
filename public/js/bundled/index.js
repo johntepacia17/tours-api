@@ -605,6 +605,7 @@ const mapBox = JSON.parse(document.getElementById('map'));
 const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
+const userPasswordForm = document.querySelector('.form-user-password');
 // delegations
 if (mapBox) {
     const locations = JSON.parse(mapBox.dataset.locations);
@@ -622,7 +623,27 @@ if (userDataForm) userDataForm.addEventListener('submit', (e)=>{
     e.preventDefault();
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
-    (0, _updateSettings.updateData)(name, email);
+    (0, _updateSettings.updateSettings)({
+        name,
+        email
+    }, 'data');
+});
+if (userPasswordForm) userPasswordForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    document.querySelector('.btn--save-password').textContent = 'Updating...';
+    const passwordCurrent = document.getElementById('password-current').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password-confirm').value;
+    await (0, _updateSettings.updateSettings)({
+        passwordCurrent,
+        password,
+        passwordConfirm
+    }, 'password');
+    // after fulfilling the objects from Promises, then run these lines of code
+    document.querySelector('.btn--save-password').textContent = 'Save password';
+    document.getElementById('password-current').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('password-confirm').value = '';
 });
 
 },{"./login":"7yHem","@babel/polyfill":"dTCHC","./mapbox":"3zDlz","./updateSettings":"l3cGY"}],"7yHem":[function(require,module,exports,__globalThis) {
@@ -12652,21 +12673,19 @@ const displayMap = (locations)=>{
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l3cGY":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "updateData", ()=>updateData);
+parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alert = require("./alert");
-const updateData = async (name, email)=>{
+const updateSettings = async (data, type)=>{
     try {
+        const url = type === 'password' ? 'http://127.0.0.1:3000/api/v1/users/update-password' : 'http://127.0.0.1:3000/api/v1/users/update-me';
         const res = await (0, _axiosDefault.default)({
             method: 'PATCH',
-            url: 'http://127.0.0.1:3000/api/v1/users/update-me',
-            data: {
-                name,
-                email
-            }
+            url,
+            data
         });
-        if (res.data.status === 'Success') (0, _alert.showAlert)('success', 'Successfully updated!');
+        if (res.data.status === 'Success' || res.data.status === 'Success!') (0, _alert.showAlert)('success', `${type.toUpperCase()} successfully updated!`);
     } catch (err) {
         (0, _alert.showAlert)('error', err.response.data.message);
     }
