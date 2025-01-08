@@ -1,7 +1,11 @@
 const express = require('express');
+const multer = require('multer');
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
-
+ 
+const upload = multer({
+    dest: 'public/img/users'
+});
 
 const router = express.Router();
 
@@ -18,7 +22,10 @@ router.use(authController.protect);
 
 router.get('/me', userController.getMe, userController.getUser);
 router.patch('/update-password', authController.updatePassword);
-router.patch('/update-me', userController.updateMe);
+
+// add upload on this route, 'photo' name of the field
+router.patch('/update-me', upload.single('photo'), userController.updateMe);
+
 router.delete('/delete-me', userController.deleteMe);
 
 // only admin can access the routes after this middleware
