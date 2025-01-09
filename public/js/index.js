@@ -4,7 +4,7 @@ import {displayMap} from './mapbox';
 import {updateSettings} from './updateSettings';
 
 // DOM elements
-const mapBox = JSON.parse(document.getElementById('map'));
+const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
