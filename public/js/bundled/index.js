@@ -628,7 +628,7 @@ if (userDataForm) userDataForm.addEventListener('submit', (e)=>{
     form.append('name', document.getElementById('name').value);
     form.append('email', document.getElementById('email').value);
     form.append('photo', document.getElementById('photo').files[0]);
-    console.log(form);
+    // console.log(form);
     // const name = document.getElementById('name').value;
     // const email = document.getElementById('email').value;
     (0, _updateSettings.updateSettings)(form, 'data');
